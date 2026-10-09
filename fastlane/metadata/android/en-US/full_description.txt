@@ -1,0 +1,28 @@
+<p>A scorekeeper and rulebook for pickleball beginners. No ads, no tracking — all data stays on your device. The interface is in Japanese.</p>
+
+<p><b>Scoring</b></p>
+<ul>
+<li>Side-out scoring (three-number call for doubles, two-number call for singles)</li>
+<li>Court diagram showing the server and player positions, with undo</li>
+<li>Single game or best-of-three match, with change-ends reminders</li>
+<li>Spoken score call after every rally</li>
+<li>Keeps the screen awake during a game</li>
+</ul>
+
+<p><b>Open play</b></p>
+<ul>
+<li>Court rotation from a waiting queue</li>
+<li>In-order or random rotation (fewest games first), avoiding repeat partners</li>
+<li>Breaks and late arrivals, handing players straight to the scoreboard</li>
+</ul>
+
+<p><b>Stats and match history</b></p>
+<ul>
+<li>Finished games are recorded automatically</li>
+<li>Per-player wins, losses, win rate, point differential, streaks and partner stats</li>
+</ul>
+
+<p><b>Rules</b></p>
+<ul>
+<li>Beginner-friendly summaries with diagrams and search</li>
+</ul>

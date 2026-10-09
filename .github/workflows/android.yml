@@ -27,6 +27,15 @@ jobs:
           cache: gradle
       - uses: android-actions/setup-android@v4
 
+      - name: Check tag matches versionName
+        if: env.IS_RELEASE == 'true'
+        run: |
+          VERSION_NAME=$(sed -n 's/^ *versionName "\(.*\)"$/\1/p' android/app/build.gradle)
+          if [ "v$VERSION_NAME" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match versionName $VERSION_NAME in android/app/build.gradle"
+            exit 1
+          fi
+
       - run: bun install --frozen-lockfile
       - run: bun run test
       - run: bun run build:android
@@ -50,8 +59,6 @@ jobs:
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-          APP_VERSION_NAME: ${{ github.ref_name }}
-          APP_VERSION_CODE: ${{ github.run_number }}
         run: |
           ./gradlew assembleRelease --no-daemon
           cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/PickleNote-${GITHUB_REF_NAME}.apk"

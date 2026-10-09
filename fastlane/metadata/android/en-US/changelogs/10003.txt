@@ -1,0 +1,2 @@
+- Build cleanup for F-Droid / IzzyOnDroid (removed the Google Services plugin)
+- Licensed under GPL-3.0-or-later

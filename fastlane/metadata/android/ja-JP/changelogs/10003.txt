@@ -1,0 +1,2 @@
+- F-Droid / IzzyOnDroid 向けにビルド構成を整理（Google Services プラグインを除去）
+- ライセンスを GPL-3.0-or-later に設定

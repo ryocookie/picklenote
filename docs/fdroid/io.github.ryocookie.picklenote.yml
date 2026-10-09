@@ -1,0 +1,40 @@
+Categories:
+  - Sports & Health
+License: GPL-3.0-or-later
+AuthorName: ryocookie
+SourceCode: https://github.com/ryocookie/picklenote
+IssueTracker: https://github.com/ryocookie/picklenote/issues
+Changelog: https://github.com/ryocookie/picklenote/releases
+
+AutoName: PickleNote
+
+RepoType: git
+Repo: https://github.com/ryocookie/picklenote.git
+
+Builds:
+  - versionName: 1.0.3
+    versionCode: 10003
+    commit: v1.0.3
+    subdir: android/app
+    sudo:
+      - apt-get update
+      - apt-get install -y unzip
+    prebuild:
+      - cd ../..
+      - curl -Lo /tmp/bun.zip https://github.com/oven-sh/bun/releases/download/bun-v1.1.18/bun-linux-x64.zip
+      - echo "9ff1dc15248db679b311ae2706ece7f0bb89fc8437fd05254eddce3b94ff0024  /tmp/bun.zip"
+        | sha256sum -c
+      - unzip -q /tmp/bun.zip -d /tmp
+      - export PATH="/tmp/bun-linux-x64:$PATH"
+      - bun install --frozen-lockfile
+      - bun run build:android
+      - find node_modules -mindepth 1 -maxdepth 1 ! -name @capacitor ! -name @capacitor-community
+        -exec rm -rf {} +
+      - rm -rf node_modules/@capacitor/cli
+    gradle:
+      - yes
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 1.0.3
+CurrentVersionCode: 10003

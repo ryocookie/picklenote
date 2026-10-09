@@ -14,7 +14,7 @@
 ## 使う
 
 - **iPhone / Android（ブラウザ）**: https://ryocookie.github.io/picklenote/ を開き、共有メニューから「ホーム画面に追加」
-- **Android（アプリ）**: [Obtainium](https://github.com/ImranR98/Obtainium) に `https://github.com/ryocookie/picklenote` を追加、
+- **Android（アプリ）**: F-Droid / [IzzyOnDroid](https://apt.izzysoft.de/fdroid/)（掲載申請中）、[Obtainium](https://github.com/ImranR98/Obtainium) に `https://github.com/ryocookie/picklenote` を追加、
   または [Releases](https://github.com/ryocookie/picklenote/releases) から APK を直接インストール
 
 ## 開発
@@ -30,7 +30,12 @@ bun run build:android  # Capacitor 向けビルド + android/ へ同期
 
 - `main` への push で GitHub Pages に自動デプロイされます（`.github/workflows/pages.yml`）
 - `v*` タグの push で署名付き APK が GitHub Releases に公開されます。初回設定は [docs/android-release.md](docs/android-release.md)
+- F-Droid / IzzyOnDroid への掲載とバージョンの上げ方は [docs/store-release.md](docs/store-release.md)
 - Android ネイティブでは読み上げ・スリープ防止を Capacitor プラグイン（text-to-speech / keep-awake）で行います
 
 得点ロジックは `src/domain/scoring.ts`、マッチ進行は `src/domain/match.ts`、練習会のローテーションは `src/domain/openPlay.ts`、成績集計は `src/domain/history.ts`（いずれも純粋関数）に集約しています。
 アイコンは `public/app-icon.svg` から `bunx pwa-assets-generator` で生成します。
+
+## ライセンス
+
+[GPL-3.0-or-later](LICENSE)
