@@ -1,0 +1,40 @@
+{
+  "name": "pickleball",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "build:pages": "BUILD_TARGET=pages bun run build",
+    "build:android": "BUILD_TARGET=android bun run build && cap sync android",
+    "icons": "bun scripts/render-icons.ts && pwa-assets-generator && bunx @capacitor/assets generate --android --iconBackgroundColor '#071a12' --iconBackgroundColorDark '#071a12' --splashBackgroundColor '#071a12' --splashBackgroundColorDark '#071a12'"
+  },
+  "dependencies": {
+    "@capacitor-community/keep-awake": "^8.0.1",
+    "@capacitor-community/text-to-speech": "^8.0.2",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@fontsource/big-shoulders-display": "^5.3.0",
+    "@fontsource/zen-kaku-gothic-new": "^5.3.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vite-pwa/assets-generator": "^2.0.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "sharp": "^0.35.5",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.0.3"
+  }
+}

@@ -1,0 +1,256 @@
+.court {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-l);
+  background:
+    radial-gradient(70% 55% at 50% 0%, rgb(228 255 58 / 10%), transparent 70%),
+    linear-gradient(180deg, var(--ink-800), var(--ink-900));
+  border: 1px solid var(--chalk-08);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Stadium light beams */
+.court::before {
+  content: '';
+  position: absolute;
+  inset: -40% -20% auto;
+  height: 80%;
+  background: conic-gradient(from 160deg at 50% 0%, transparent 0deg, rgb(241 244 234 / 6%) 12deg, transparent 24deg, transparent 336deg, rgb(241 244 234 / 6%) 348deg, transparent 360deg);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.court svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.kitchen {
+  fill: rgb(241 244 234 / 7%);
+}
+
+.lines polygon,
+.lines line {
+  fill: none;
+  stroke: var(--chalk);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  opacity: 0.92;
+}
+
+.kitchen-label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-anchor: middle;
+  fill: var(--chalk-45);
+}
+
+.target-box {
+  fill: var(--ball);
+  opacity: 0.16;
+  animation: target-in var(--dur-slow) var(--ease-out) 0.3s both;
+}
+
+@keyframes target-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Net */
+.net polygon {
+  fill: url(#mesh);
+  stroke: rgb(241 244 234 / 25%);
+  stroke-width: 0.5;
+}
+
+.net-tape {
+  stroke: var(--chalk);
+  stroke-width: 2.4;
+}
+
+.net-post {
+  stroke: #0a1510;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* Serve */
+.serve-arc {
+  fill: none;
+  stroke: var(--ball);
+  stroke-width: 1.6;
+  stroke-dasharray: 0.018 0.014;
+  stroke-linecap: round;
+  opacity: 0.85;
+  animation: arc-draw 900ms var(--ease-out) 0.38s both;
+}
+
+@keyframes arc-draw {
+  from {
+    opacity: 0;
+    stroke-dashoffset: 0.3;
+  }
+}
+
+.landing {
+  fill: none;
+  stroke: var(--ball);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: landing-ripple 1.2s var(--ease-out) 1.25s both;
+}
+
+@keyframes landing-ripple {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+.ball {
+  filter: drop-shadow(0 0 6px rgb(228 255 58 / 70%));
+}
+
+.ball-shadow {
+  fill: rgb(0 0 0 / 45%);
+}
+
+/* Player tokens */
+.token {
+  transition: transform 520ms var(--ease-spring);
+}
+
+.token-shadow {
+  fill: rgb(0 0 0 / 40%);
+}
+
+.token-body {
+  stroke: rgb(0 0 0 / 35%);
+  stroke-width: 1.5;
+  transition: fill var(--dur-mid);
+}
+
+.team-A .token-body {
+  fill: var(--team-a);
+}
+
+.team-B .token-body {
+  fill: var(--team-b);
+}
+
+.token.idle .token-body {
+  opacity: 0.55;
+}
+
+.token-initial {
+  font-family: var(--font-body);
+  font-weight: 900;
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+.team-A .token-initial {
+  fill: var(--team-a-ink);
+}
+
+.team-B .token-initial {
+  fill: var(--team-b-ink);
+}
+
+.token-label rect {
+  fill: rgb(4 17 11 / 78%);
+  stroke: var(--chalk-15);
+}
+
+.token-label text {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 11.5px;
+  text-anchor: middle;
+  fill: var(--chalk);
+}
+
+.token.server .token-label rect {
+  fill: var(--ball);
+  stroke: none;
+}
+
+.token.server .token-label text {
+  fill: var(--ball-ink);
+  font-weight: 900;
+}
+
+.token.receiver .token-label rect {
+  stroke: var(--chalk-70);
+  stroke-width: 1.2;
+}
+
+.token.idle .token-label {
+  opacity: 0.6;
+}
+
+.token-pulse {
+  fill: none;
+  stroke: var(--ball);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 1.8s var(--ease-out) infinite;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+/* Legend */
+.court-legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: 0 var(--space-3) var(--space-3);
+  font-size: 0.7rem;
+  color: var(--chalk-45);
+}
+
+.court-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.swatch.target {
+  background: rgb(228 255 58 / 40%);
+  border: 1px solid var(--ball);
+}
+
+.swatch.kitchen {
+  background: rgb(241 244 234 / 14%);
+  border: 1px solid var(--chalk-45);
+}

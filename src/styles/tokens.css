@@ -1,0 +1,70 @@
+/* NIGHT COURT — design tokens */
+:root {
+  /* Field */
+  --ink-950: #04110b;
+  --ink-900: #071a12;
+  --ink-800: #0c2a1d;
+  --ink-700: #123a29;
+  --ink-600: #1b4d37;
+  --court: #1c5a3f;
+  --court-hi: #24704f;
+  --chalk: #f1f4ea;
+  --chalk-70: rgb(241 244 234 / 70%);
+  --chalk-45: rgb(241 244 234 / 45%);
+  --chalk-15: rgb(241 244 234 / 15%);
+  --chalk-08: rgb(241 244 234 / 8%);
+
+  /* Accent: optic ball */
+  --ball: #e4ff3a;
+  --ball-ink: #142000;
+  --ball-glow: rgb(228 255 58 / 45%);
+
+  /* Teams */
+  --team-a: #6cc4ff;
+  --team-a-ink: #001a2c;
+  --team-b: #ff7d5c;
+  --team-b-ink: #2c0a00;
+
+  /* Paper (reading surfaces) */
+  --paper: #f3efe3;
+  --paper-ink: #13221a;
+  --paper-muted: #5f6b62;
+  --paper-rule: #d9d2bf;
+
+  /* Type */
+  --font-display: 'Big Shoulders Display', 'Zen Kaku Gothic New', system-ui, sans-serif;
+  --font-body: 'Zen Kaku Gothic New', system-ui, -apple-system, 'Hiragino Sans', sans-serif;
+
+  --step--1: 0.8125rem;
+  --step-0: 0.9375rem;
+  --step-1: 1.125rem;
+  --step-2: 1.5rem;
+  --step-3: 2.25rem;
+  --step-4: clamp(3rem, 14vw, 4.5rem);
+  --step-5: clamp(4.5rem, 24vw, 7.5rem);
+
+  /* Space */
+  --gutter: 16px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 36px;
+  --space-7: 56px;
+
+  /* Shape */
+  --radius-s: 10px;
+  --radius-m: 18px;
+  --radius-l: 28px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 140ms;
+  --dur-mid: 320ms;
+  --dur-slow: 640ms;
+
+  --dock-h: 64px;
+}

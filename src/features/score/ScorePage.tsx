@@ -1,0 +1,136 @@
+import { useState } from 'react'
+import type { BestOf } from '../../domain/match'
+import type { GameConfig, TeamId } from '../../domain/scoring'
+import { useSpeech } from '../../lib/useSpeech'
+import { useWakeLock, type WakeLockStatus } from '../../lib/useWakeLock'
+import { announcement, startAnnouncement } from './announcement'
+import { Court } from './Court'
+import { MatchStrip } from './MatchStrip'
+import { RallyNote, RallyStamp } from './RallyFeedback'
+import { ScoreCall } from './ScoreCall'
+import { SetupForm } from './SetupForm'
+import { useMatch } from './useMatch'
+import { WinnerOverlay } from './WinnerOverlay'
+import './score.css'
+
+const TAP_VIBRATION_MS = 12
+
+function haptic(): void {
+  if ('vibrate' in navigator) navigator.vibrate(TAP_VIBRATION_MS)
+}
+
+const WAKE_LOCK_LABEL: Record<WakeLockStatus, string | null> = {
+  locked: '試合中は画面が消えません',
+  failed: '画面の自動オフを止められませんでした（省電力モードなどが原因の場合があります）',
+  unsupported: null,
+  idle: null,
+}
+
+export function ScorePage() {
+  const { match, turn, canUndo, start, rally, nextGame, undo, reset } = useMatch()
+  const [isEditing, setIsEditing] = useState(false)
+  const speech = useSpeech()
+  const isPlaying = match !== null && !isEditing
+  const wakeLock = useWakeLock(isPlaying)
+
+  const begin = (config: GameConfig, bestOf: BestOf) => {
+    start(config, bestOf)
+    setIsEditing(false)
+    window.scrollTo({ top: 0 })
+  }
+
+  if (!match || isEditing) {
+    return <SetupForm initial={match ? { config: match.game.config, bestOf: match.bestOf } : undefined} onStart={begin} />
+  }
+
+  const { game } = match
+  const { teams } = game.config
+
+  const openSettings = () => {
+    setIsEditing(true)
+    window.scrollTo({ top: 0 })
+  }
+
+  const handleRally = (team: TeamId) => {
+    haptic()
+    const next = rally(team)
+    if (next) speech.speak(announcement(next))
+  }
+
+  const handleNextGame = () => {
+    const next = nextGame()
+    if (next) speech.speak(startAnnouncement(next))
+  }
+
+  const wakeLockLabel = WAKE_LOCK_LABEL[wakeLock]
+
+  return (
+    <div className="scoreboard">
+      <MatchStrip match={match} />
+      <ScoreCall game={game} />
+
+      <div className="court-wrap">
+        <Court game={game} turn={turn} />
+        <RallyStamp match={match} turn={turn} />
+      </div>
+
+      <div className="rally" role="group" aria-labelledby="rally-q">
+        <p id="rally-q" className="rally-q">
+          ラリーを取ったのは？
+        </p>
+        {(['A', 'B'] as const).map((team) => (
+          <button
+            key={team}
+            type="button"
+            className={`rally-btn team-${team} ${game.servingTeam === team ? 'is-serving' : ''}`}
+            onClick={() => handleRally(team)}
+            disabled={game.winner !== null}
+          >
+            <span className="rally-btn-tag">{game.servingTeam === team ? 'SERVE' : 'RETURN'}</span>
+            <span className="rally-btn-name">{teams[team].name}</span>
+            <span className="rally-btn-score">{game.score[team]}</span>
+          </button>
+        ))}
+      </div>
+
+      <RallyNote match={match} turn={turn} />
+
+      <div className="toolbar">
+        <button type="button" className="tool tool-undo" onClick={undo} disabled={!canUndo}>
+          <span aria-hidden="true">↶</span> 1つ戻す
+        </button>
+        {speech.isSupported && (
+          <button type="button" className={`tool tool-speech ${speech.isEnabled ? 'is-on' : ''}`} aria-pressed={speech.isEnabled} onClick={speech.toggle}>
+            <span className="tool-speech-icon" aria-hidden="true" />
+            読み上げ {speech.isEnabled ? 'ON' : 'OFF'}
+          </button>
+        )}
+        <button type="button" className="tool" onClick={openSettings}>
+          設定
+        </button>
+        <button
+          type="button"
+          className="tool"
+          onClick={() => {
+            if (confirm('試合を終了して記録を消しますか？')) reset()
+          }}
+        >
+          終了
+        </button>
+      </div>
+
+      {wakeLockLabel && <p className={`wake-status is-${wakeLock}`}>{wakeLockLabel}</p>}
+
+      {game.winner && (
+        <WinnerOverlay
+          match={match}
+          winner={game.winner}
+          onNextGame={handleNextGame}
+          onRematch={() => begin(game.config, match.bestOf)}
+          onUndo={undo}
+          onSettings={openSettings}
+        />
+      )}
+    </div>
+  )
+}

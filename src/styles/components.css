@@ -1,0 +1,73 @@
+/* Shared primitives used across features */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ---------- Shared CTA ---------- */
+
+.cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 64px;
+  padding: 0 10px 0 24px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  font-size: var(--step-1);
+  font-weight: 900;
+  color: var(--ball-ink);
+  background: var(--ball);
+  box-shadow:
+    0 -4px 0 rgb(0 0 0 / 18%) inset,
+    0 18px 40px -14px var(--ball-glow);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.cta::after {
+  content: '→';
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  color: var(--ball);
+  background: var(--ink-900);
+  transition: transform var(--dur-mid) var(--ease-spring);
+}
+
+.cta:hover::after {
+  transform: translateX(3px);
+}
+
+.cta:active {
+  transform: scale(0.98);
+}
+
+.ghost {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--chalk-15);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--chalk-70);
+}
+
+@keyframes title-in {
+  from {
+    opacity: 0;
+    transform: translateY(40%);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 -10% 0);
+  }
+}

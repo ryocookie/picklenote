@@ -1,0 +1,129 @@
+.app {
+  max-width: 520px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  padding-bottom: calc(var(--dock-h) + env(safe-area-inset-bottom) + 28px);
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: calc(env(safe-area-inset-top) + 14px) var(--gutter) 10px;
+}
+
+.masthead p {
+  margin: 0;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.wordmark em {
+  font-style: normal;
+  color: var(--ball);
+}
+
+.wordmark-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f8ffb0, var(--ball) 55%, #b6cc1f);
+  box-shadow: 0 0 14px var(--ball-glow);
+}
+
+.masthead-tag {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--chalk-45);
+}
+
+.stage {
+  padding: 0 var(--gutter);
+  animation: stage-in var(--dur-slow) var(--ease-out);
+}
+
+@keyframes stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* ---------- Dock ---------- */
+
+.dock {
+  --active: 0;
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom) + 14px);
+  translate: -50% 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(300px, calc(100% - 2 * var(--gutter)));
+  height: var(--dock-h);
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  background: rgb(7 26 18 / 72%);
+  border: 1px solid var(--chalk-15);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 45%);
+}
+
+.dock-thumb {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc(50% - 6px);
+  border-radius: var(--radius-pill);
+  background: var(--ball);
+  box-shadow: 0 0 24px var(--ball-glow);
+  transform: translateX(calc(var(--active) * 100%));
+  transition: transform var(--dur-mid) var(--ease-spring);
+}
+
+.dock button {
+  position: relative;
+  display: grid;
+  place-content: center;
+  gap: 0;
+  border: 0;
+  background: none;
+  color: var(--chalk-70);
+  line-height: 1.1;
+  transition: color var(--dur-mid);
+}
+
+.dock button[aria-current='page'] {
+  color: var(--ball-ink);
+}
+
+.dock-en {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+}
+
+.dock-ja {
+  font-size: 0.65rem;
+  font-weight: 700;
+  opacity: 0.8;
+}
