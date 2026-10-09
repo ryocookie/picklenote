@@ -77,3 +77,10 @@
     opacity: 0.35;
   }
 }
+
+@keyframes queue-in {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}

@@ -3,19 +3,22 @@ import type { GameConfig } from './domain/scoring'
 import { OpenPlayPage, type CourtLineup } from './features/openplay/OpenPlayPage'
 import { RulesPage } from './features/rules/RulesPage'
 import { ScorePage, type ScoreRequest } from './features/score/ScorePage'
+import { StatsPage } from './features/stats/StatsPage'
 import './styles/app.css'
 
-type Tab = 'score' | 'openplay' | 'rules'
+type Tab = 'score' | 'openplay' | 'stats' | 'rules'
 
 const TABS: readonly { id: Tab; label: string; en: string }[] = [
   { id: 'score', label: 'スコア', en: 'SCORE' },
   { id: 'openplay', label: '練習会', en: 'OPEN PLAY' },
+  { id: 'stats', label: '成績', en: 'STATS' },
   { id: 'rules', label: 'ルール', en: 'RULES' },
 ]
 
 const TAGLINES: Record<Tab, string> = {
   score: 'Side-out scoring',
   openplay: 'Court rotation',
+  stats: 'Records & history',
   rules: 'Rulebook for beginners',
 }
 
@@ -57,8 +60,9 @@ export default function App() {
       </header>
 
       <main className="stage" key={tab}>
-        {tab === 'score' && <ScorePage request={scoreRequest} onRequestHandled={() => setScoreRequest(null)} />}
+        {tab === 'score' && <ScorePage request={scoreRequest} onRequestHandled={() => setScoreRequest(null)} onOpenStats={() => goTo('stats')} />}
         {tab === 'openplay' && <OpenPlayPage onScore={scoreCourt} />}
+        {tab === 'stats' && <StatsPage onGoScore={() => goTo('score')} />}
         {tab === 'rules' && <RulesPage />}
       </main>
 

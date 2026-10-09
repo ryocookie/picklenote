@@ -775,3 +775,28 @@
 .winner-next strong {
   color: var(--chalk);
 }
+
+.winner-saved {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--chalk-70);
+  animation: fade-up var(--dur-slow) var(--ease-out) 640ms both;
+}
+
+.winner-saved > span {
+  color: var(--ball);
+}
+
+.winner-stats-link {
+  padding: 4px 12px;
+  border: 1px solid var(--ball);
+  border-radius: var(--radius-pill);
+  background: none;
+  font-weight: 900;
+  color: var(--ball);
+}

@@ -416,12 +416,6 @@
   animation: queue-in 420ms var(--ease-out) both;
 }
 
-@keyframes queue-in {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-}
 
 .queue-item.is-next {
   background: rgb(228 255 58 / 10%);

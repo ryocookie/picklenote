@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import type { BestOf } from '../../domain/match'
 import type { GameConfig, TeamId } from '../../domain/scoring'
+import { toRecord } from '../../domain/history'
 import { useSpeech } from '../../lib/useSpeech'
+import { removeRecord, upsertRecord } from '../stats/useMatchHistory'
 import { useWakeLock, type WakeLockStatus } from '../../lib/useWakeLock'
 import { announcement, startAnnouncement } from './announcement'
 import { Court } from './Court'
@@ -36,9 +38,10 @@ export interface ScoreRequest {
 interface ScorePageProps {
   request?: ScoreRequest | null
   onRequestHandled?: () => void
+  onOpenStats?: () => void
 }
 
-export function ScorePage({ request = null, onRequestHandled }: ScorePageProps) {
+export function ScorePage({ request = null, onRequestHandled, onOpenStats }: ScorePageProps) {
   const { match, turn, canUndo, start, rally, nextGame, undo, reset } = useMatch()
   const [isEditing, setIsEditing] = useState(false)
   const speech = useSpeech()
@@ -51,6 +54,14 @@ export function ScorePage({ request = null, onRequestHandled }: ScorePageProps) 
     setIsEditing(false)
     window.scrollTo({ top: 0 })
   }
+
+  // Keep the history in sync: a decided match is recorded, and undoing the winning rally removes it again.
+  useEffect(() => {
+    if (!match?.id) return
+    const record = toRecord(match, Date.now())
+    if (record) upsertRecord(record)
+    else removeRecord(match.id)
+  }, [match])
 
   useEffect(() => {
     if (!request || handledRequestId.current === request.id) return
@@ -155,6 +166,7 @@ export function ScorePage({ request = null, onRequestHandled }: ScorePageProps) 
           onRematch={() => begin(game.config, match.bestOf)}
           onUndo={undo}
           onSettings={openSettings}
+          onOpenStats={onOpenStats}
         />
       )}
     </div>

@@ -9,9 +9,10 @@ interface WinnerOverlayProps {
   onRematch: () => void
   onUndo: () => void
   onSettings: () => void
+  onOpenStats?: () => void
 }
 
-export function WinnerOverlay({ match, winner, onNextGame, onRematch, onUndo, onSettings }: WinnerOverlayProps) {
+export function WinnerOverlay({ match, winner, onNextGame, onRematch, onUndo, onSettings, onOpenStats }: WinnerOverlayProps) {
   const primaryRef = useRef<HTMLButtonElement>(null)
   const { game } = match
   const { teams } = game.config
@@ -59,6 +60,17 @@ export function WinnerOverlay({ match, winner, onNextGame, onRematch, onUndo, on
       {!isMatchOver && (
         <p className="winner-next">
           エンドを交代して、第{gameNumber + 1}ゲームは<strong>{nextServer}</strong>のサーブから
+        </p>
+      )}
+
+      {isMatchOver && (
+        <p className="winner-saved">
+          <span aria-hidden="true">✓</span> 成績に記録しました
+          {onOpenStats && (
+            <button type="button" className="winner-stats-link" onClick={onOpenStats}>
+              成績を見る →
+            </button>
+          )}
         </p>
       )}
 

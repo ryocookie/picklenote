@@ -16,6 +16,8 @@ export interface GameResult {
 }
 
 export interface MatchState {
+  // Stable identity, used to link a finished match to its history record.
+  id: string
   bestOf: BestOf
   // Games already closed with startNextGame.
   results: readonly GameResult[]
@@ -29,8 +31,8 @@ export const switchEndsAt = (targetScore: number): number => Math.ceil(targetSco
 
 const gamesToWin = (bestOf: BestOf): number => Math.floor(bestOf / 2) + 1
 
-export function createMatch(config: GameConfig, bestOf: BestOf): MatchState {
-  return { bestOf, results: [], game: createGame(config), hasSwitchedEnds: false, notice: null }
+export function createMatch(config: GameConfig, bestOf: BestOf, id = ''): MatchState {
+  return { id, bestOf, results: [], game: createGame(config), hasSwitchedEnds: false, notice: null }
 }
 
 export const currentGameNumber = (match: MatchState): number => match.results.length + 1

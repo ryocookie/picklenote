@@ -20,13 +20,18 @@ function isMatchState(value: unknown): value is MatchState {
   )
 }
 
+const newMatchId = (): string => `m${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
+
 function loadHistory(): History {
   try {
     localStorage.removeItem(LEGACY_STORAGE_KEY)
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return []
     const parsed: unknown = JSON.parse(raw)
-    return Array.isArray(parsed) && parsed.every(isMatchState) ? parsed : []
+    if (!Array.isArray(parsed) || !parsed.every(isMatchState)) return []
+    // Matches saved before ids existed: give the whole in-progress history one id.
+    const fallbackId = newMatchId()
+    return parsed.map((m) => (typeof m.id === 'string' && m.id ? m : { ...m, id: fallbackId }))
   } catch {
     // Corrupted or inaccessible storage: start fresh instead of crashing.
     return []
@@ -67,7 +72,7 @@ export function useMatch(): UseMatch {
 
   useEffect(() => saveHistory(history), [history])
 
-  const start = useCallback((config: GameConfig, bestOf: BestOf) => commit([createMatch(config, bestOf)]), [commit])
+  const start = useCallback((config: GameConfig, bestOf: BestOf) => commit([createMatch(config, bestOf, newMatchId())]), [commit])
 
   const rally = useCallback(
     (winner: TeamId) => {

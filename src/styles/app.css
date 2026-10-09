@@ -74,8 +74,8 @@
   translate: -50% 0;
   z-index: 50;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  width: min(380px, calc(100% - 2 * var(--gutter)));
+  grid-template-columns: repeat(4, 1fr);
+  width: min(440px, calc(100% - 2 * var(--gutter)));
   height: var(--dock-h);
   padding: 6px;
   border-radius: var(--radius-pill);
@@ -91,7 +91,7 @@
   top: 6px;
   bottom: 6px;
   left: 6px;
-  width: calc((100% - 12px) / 3);
+  width: calc((100% - 12px) / 4);
   border-radius: var(--radius-pill);
   background: var(--ball);
   box-shadow: 0 0 24px var(--ball-glow);
@@ -118,8 +118,8 @@
 .dock-en {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 1rem;
-  letter-spacing: 0.06em;
+  font-size: clamp(0.78rem, 3.4vw, 1rem);
+  letter-spacing: 0.04em;
   white-space: nowrap;
 }
 
