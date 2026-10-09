@@ -10,6 +10,7 @@ AutoName: PickleNote
 
 RepoType: git
 Repo: https://github.com/ryocookie/picklenote.git
+Binaries: https://github.com/ryocookie/picklenote/releases/download/v%v/PickleNote-v%v.apk
 
 Builds:
   - versionName: 1.0.3
@@ -22,24 +23,26 @@ Builds:
       - apt-get install -y unzip
       - apt-get install -y -t trixie openjdk-21-jdk-headless
       - update-alternatives --auto java
+    gradle:
+      - yes
     prebuild:
       - cd ../..
+      - curl -Lo /tmp/node.tar.xz https://nodejs.org/dist/v24.21.0/node-v24.21.0-linux-x64.tar.xz
+      - echo "fd8e59d5a511510f6a298afb548f18c7d2b1be404d8b4a27d94fbe49f56cb2d6  /tmp/node.tar.xz"
+        | sha256sum -c
+      - tar -xf /tmp/node.tar.xz -C /tmp
       - curl -Lo /tmp/bun.zip https://github.com/oven-sh/bun/releases/download/bun-v1.1.18/bun-linux-x64.zip
       - echo "9ff1dc15248db679b311ae2706ece7f0bb89fc8437fd05254eddce3b94ff0024  /tmp/bun.zip"
         | sha256sum -c
       - unzip -q /tmp/bun.zip -d /tmp
-      - export PATH="/tmp/bun-linux-x64:$PATH"
+      - export PATH="/tmp/node-v24.21.0-linux-x64/bin:/tmp/bun-linux-x64:$PATH"
       - bun install --frozen-lockfile
       - bun run build:android
       - find node_modules -mindepth 1 -maxdepth 1 ! -name @capacitor ! -name @capacitor-community
         -exec rm -rf {} +
       - rm -rf node_modules/@capacitor/cli
-    gradle:
-      - yes
 
 AllowedAPKSigningKeys: 105d70fbe8445ebf842b800e3f6215ec013f1d45af90a0a4a2928d1725e12c77
-
-Binaries: https://github.com/ryocookie/picklenote/releases/download/v%v/PickleNote-v%v.apk
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
