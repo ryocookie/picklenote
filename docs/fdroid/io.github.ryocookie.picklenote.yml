@@ -14,11 +14,14 @@ Repo: https://github.com/ryocookie/picklenote.git
 Builds:
   - versionName: 1.0.3
     versionCode: 10003
-    commit: v1.0.3
+    commit: 98fb5e6a3b64ebd7bdb1fbcf649d2d83fa66f484
     subdir: android/app
     sudo:
+      - echo "deb https://deb.debian.org/debian trixie main" > /etc/apt/sources.list.d/trixie.list
       - apt-get update
       - apt-get install -y unzip
+      - apt-get install -y -t trixie openjdk-21-jdk-headless
+      - update-alternatives --auto java
     prebuild:
       - cd ../..
       - curl -Lo /tmp/bun.zip https://github.com/oven-sh/bun/releases/download/bun-v1.1.18/bun-linux-x64.zip
@@ -33,6 +36,10 @@ Builds:
       - rm -rf node_modules/@capacitor/cli
     gradle:
       - yes
+
+AllowedAPKSigningKeys: 105d70fbe8445ebf842b800e3f6215ec013f1d45af90a0a4a2928d1725e12c77
+
+Binaries: https://github.com/ryocookie/picklenote/releases/download/v%v/PickleNote-v%v.apk
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
