@@ -726,11 +726,6 @@
   animation: none;
 }
 
-@keyframes breathe {
-  50% {
-    opacity: 0.35;
-  }
-}
 
 /* ---------- Winner: match summary ---------- */
 

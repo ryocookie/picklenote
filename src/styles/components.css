@@ -71,3 +71,9 @@
     clip-path: inset(0 0 -10% 0);
   }
 }
+
+@keyframes breathe {
+  50% {
+    opacity: 0.35;
+  }
+}

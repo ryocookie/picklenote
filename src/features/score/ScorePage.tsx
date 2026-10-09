@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { BestOf } from '../../domain/match'
 import type { GameConfig, TeamId } from '../../domain/scoring'
 import { useSpeech } from '../../lib/useSpeech'
@@ -26,18 +26,44 @@ const WAKE_LOCK_LABEL: Record<WakeLockStatus, string | null> = {
   idle: null,
 }
 
-export function ScorePage() {
+// A game handed over from another screen (e.g. a court in open play).
+export interface ScoreRequest {
+  id: number
+  config: GameConfig
+  bestOf: BestOf
+}
+
+interface ScorePageProps {
+  request?: ScoreRequest | null
+  onRequestHandled?: () => void
+}
+
+export function ScorePage({ request = null, onRequestHandled }: ScorePageProps) {
   const { match, turn, canUndo, start, rally, nextGame, undo, reset } = useMatch()
   const [isEditing, setIsEditing] = useState(false)
   const speech = useSpeech()
   const isPlaying = match !== null && !isEditing
   const wakeLock = useWakeLock(isPlaying)
+  const handledRequestId = useRef<number | null>(null)
 
   const begin = (config: GameConfig, bestOf: BestOf) => {
     start(config, bestOf)
     setIsEditing(false)
     window.scrollTo({ top: 0 })
   }
+
+  useEffect(() => {
+    if (!request || handledRequestId.current === request.id) return
+    handledRequestId.current = request.id
+    const isInProgress = match !== null && match.game.winner === null && turn > 1
+    if (!isInProgress || confirm('進行中の試合を終了して、このコートの試合を始めますか？')) {
+      start(request.config, request.bestOf)
+      setIsEditing(false)
+    }
+    onRequestHandled?.()
+    // Only react to a new request; match/turn are read at that moment.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [request?.id])
 
   if (!match || isEditing) {
     return <SetupForm initial={match ? { config: match.game.config, bestOf: match.bestOf } : undefined} onStart={begin} />

@@ -4,6 +4,7 @@
 
 - スコア: サイドアウト方式（ダブルス 3コール / シングルス 2コール）、サーバーと位置の表示、1つ戻す、端末内に自動保存
 - マッチ: 1ゲーム / 3ゲームマッチ（2ゲーム先取）。ゲーム間と最終ゲーム折り返しのコートチェンジを通知
+- 練習会（オープンプレイ）: 待ち列でコートを回す順番管理。「順番」「ランダム（試合数が少ない人優先）」の2方式、同じペアの連続を回避、待ち順シャッフル、休憩・途中参加、スコア画面への引き継ぎ
 - 読み上げ: ラリーごとにスコアコールを音声で読み上げ（Web Speech API）
 - 試合中は画面のスリープを防止（Screen Wake Lock API）
 - PWA: ホーム画面に追加してオフラインでも利用可能
@@ -30,5 +31,5 @@ bun run build:android  # Capacitor 向けビルド + android/ へ同期
 - `v*` タグの push で署名付き APK が GitHub Releases に公開されます。初回設定は [docs/android-release.md](docs/android-release.md)
 - Android ネイティブでは読み上げ・スリープ防止を Capacitor プラグイン（text-to-speech / keep-awake）で行います
 
-得点ロジックは `src/domain/scoring.ts`、マッチ進行は `src/domain/match.ts`（いずれも純粋関数）に集約しています。
+得点ロジックは `src/domain/scoring.ts`、マッチ進行は `src/domain/match.ts`、練習会のローテーションは `src/domain/openPlay.ts`（いずれも純粋関数）に集約しています。
 アイコンは `public/app-icon.svg` から `bunx pwa-assets-generator` で生成します。
